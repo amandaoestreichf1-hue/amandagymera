@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>My Gym Era</title>
+  <meta name="description" content="Seu calendário de treinos fofo: semana ideal, hidratação e a Bia, sua coelhinha motivadora.">
+  <meta name="theme-color" content="#FFF6F9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#161218" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="My Gym Era">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <main id="view" aria-live="polite"></main>
+
+  <nav class="tabbar" aria-label="Navegação">
+    <a class="tab" href="#/hoje" data-route="hoje"><span class="ti">🏠</span>Hoje</a>
+    <a class="tab" href="#/semana" data-route="semana"><span class="ti">📅</span>Semana</a>
+    <a class="tab" href="#/mes" data-route="mes"><span class="ti">🗓️</span>Mês</a>
+    <a class="tab" href="#/evolucao" data-route="evolucao"><span class="ti">🏆</span>Evolução</a>
+    <a class="tab" href="#/plano" data-route="plano"><span class="ti">🎯</span>Plano</a>
+  </nav>
+
+  <div id="sheet-root"></div>
+  <div id="toast-root" role="status"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
