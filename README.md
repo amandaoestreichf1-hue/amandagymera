@@ -39,7 +39,7 @@ Ao alterar arquivos, suba a versão em `sw.js` (`VERSION`) para o iPhone baixar 
 
 ```
 index.html            casca do app + barra de abas
-css/styles.css        visual "esportivo fofo" (claro e escuro)
+css/styles.css        visual lima, lilás, violeta e rosa (claro e escuro)
 js/data.js            estúdios, horários, modalidades e objetivos
 js/store.js           estado salvo no aparelho + datas
 js/planner.js         montagem e reajuste da semana, progressão
@@ -47,6 +47,7 @@ js/hydration.js       cálculo de hidratação
 js/mascot.js          a coelhinha Bia (SVG animado) e as falas
 js/achievements.js    medalhas e estatísticas
 js/app.js             telas e interações
+fonts/                DM Sans + Instrument Serif (offline)
 sw.js                 funciona offline
 ```
 

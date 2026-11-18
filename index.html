@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>My Gym Era</title>
   <meta name="description" content="Seu calendário de treinos fofo: semana ideal, hidratação e a Bia, sua coelhinha motivadora.">
-  <meta name="theme-color" content="#FFF6F9" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#161218" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F7F6F2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="My Gym Era">
@@ -14,17 +14,18 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preload" href="fonts/dmsans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <main id="view" aria-live="polite"></main>
 
   <nav class="tabbar" aria-label="Navegação">
-    <a class="tab" href="#/hoje" data-route="hoje"><span class="ti">🏠</span>Hoje</a>
-    <a class="tab" href="#/semana" data-route="semana"><span class="ti">📅</span>Semana</a>
-    <a class="tab" href="#/mes" data-route="mes"><span class="ti">🗓️</span>Mês</a>
-    <a class="tab" href="#/evolucao" data-route="evolucao"><span class="ti">🏆</span>Evolução</a>
-    <a class="tab" href="#/plano" data-route="plano"><span class="ti">🎯</span>Plano</a>
+    <a class="tab" href="#/hoje" data-route="hoje"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>Hoje</a>
+    <a class="tab" href="#/semana" data-route="semana"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="4"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M7 14h2M11 14h2M15 14h2"/></svg>Semana</a>
+    <a class="tab" href="#/mes" data-route="mes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="4"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M7.5 14h.01M12 14h.01M16.5 14h.01M7.5 17.5h.01M12 17.5h.01"/></svg>Mês</a>
+    <a class="tab" href="#/evolucao" data-route="evolucao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 C13 8 16 11 22 12 C16 13 13 16 12 22 C11 16 8 13 2 12 C8 11 11 8 12 2Z"/></svg>Evolução</a>
+    <a class="tab" href="#/plano" data-route="plano"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>Plano</a>
   </nav>
 
   <div id="sheet-root"></div>

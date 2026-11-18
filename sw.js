@@ -1,10 +1,11 @@
 // Service worker: deixa o app abrir offline.
 // Ao mudar qualquer arquivo, suba o número da versão.
-const VERSION = 'mge-v1';
+const VERSION = 'mge-v2';
 const FILES = [
   './', './index.html', './css/styles.css', './manifest.webmanifest',
   './js/app.js', './js/data.js', './js/store.js', './js/planner.js',
   './js/hydration.js', './js/mascot.js', './js/achievements.js',
+  './fonts/dmsans.woff2', './fonts/instrument-serif-italic.woff2', './fonts/instrument-serif.woff2',
   './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png',
 ];
 

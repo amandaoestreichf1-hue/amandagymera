@@ -43,6 +43,13 @@ function greeting() {
 }
 const plural = (n, s, p) => `${n} ${n === 1 ? s : p}`;
 
+// ---------- Decoração (brilhos, ondas, florzinha, seta) ----------
+const SPARK = (cls = '') => `<svg class="spark ${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z"/></svg>`;
+const FLOWER = (cls = '') => `<svg class="flower ${cls}" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8c9 0 15 9 13 20 8-8 19-9 24-1s0 18-10 22c10 4 15 14 10 22s-16 7-24-1c2 11-4 20-13 20s-15-9-13-20c-8 8-19 9-24 1s0-18 10-22C13 45 8 35 13 27s16-7 24 1C35 17 41 8 50 8z"/></svg>`;
+const WAVE = `<svg class="wave" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 100 C30 -20 60 -20 90 60 S150 140 180 40 S240 -30 270 60 S330 130 360 30 S400 0 420 40" fill="none" stroke-width="22" stroke-linecap="round"/></svg>`;
+const ARROW = `<span class="arrow-c" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 L17 7 M9 7 H17 V15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+const ticker = (items) => { const t = items.map((x) => `<span>${x}</span>${SPARK('tk')}`).join(''); return `<div class="ticker" aria-hidden="true"><div class="tk-track">${t}${t}</div></div>`; };
+
 // ---------- Roteamento ----------
 function go(route) { location.hash = `#/${route}`; }
 window.addEventListener('hashchange', () => { ui.route = location.hash.replace('#/', '') || 'hoje'; render(); });
@@ -109,22 +116,28 @@ function viewToday() {
   const tmr = entriesOn(tomorrow).filter((e) => statusOf(e) === 'planned');
 
   return `
-  <header class="top">
+  <header class="top hero">
     <div>
       <p class="eyebrow">${fmtLong(c.today)}</p>
-      <h1>${greeting()}, ${s.name}!</h1>
+      <h1>${greeting()},<br><em>${s.name}</em> ${SPARK('h1-spark')}</h1>
     </div>
-    <a class="goal-chip" href="#/plano">${goal.emoji} ${goal.label}${daysLeft >= 0 ? ` · ${plural(daysLeft, 'dia', 'dias')}` : ''}</a>
+    <div class="pills">
+      <a class="pill p-violet" href="#/plano">${goal.emoji} ${goal.label}</a>
+      ${daysLeft >= 0 ? `<span class="pill p-pink">faltam ${plural(daysLeft, 'dia', 'dias')}</span>` : ''}
+      <span class="pill p-ink">meta ${c.target}/sem</span>
+    </div>
   </header>
+  ${ticker(['sua era fitness', 'um treino de cada vez', `bora, ${s.name}`, 'beba água', 'descanso também é treino'])}
 
   <section class="mascot-card">
-    <div class="mascot-wrap" data-action="poke">${bunnySVG(ms.mood, { size: 118 })}</div>
-    <div class="bubble"><p>${line}</p><span class="mood-tag">Bia está ${MOOD_LABEL[ms.mood]}</span></div>
+    ${FLOWER('mc-flower')}
+    <div class="mascot-wrap" data-action="poke">${bunnySVG(ms.mood, { size: 112 })}</div>
+    <div class="bubble"><span class="mood-tag">Bia está ${MOOD_LABEL[ms.mood]}</span><p>${line}</p></div>
   </section>
 
   ${weekStrip(c)}
 
-  <h2 class="section-title">Hoje</h2>
+  <h2 class="section-title">Hoje ${SPARK()}</h2>
   ${todayList.length ? todayList.map((e) => todayCard(e)).join('') : `
     <div class="card rest-card">
       <div class="rest-emoji">😴</div>
@@ -155,10 +168,11 @@ function weekStrip(c) {
   }).join('');
   return `
   <section class="card week-card">
+    ${WAVE}
     <div class="ring" role="img" aria-label="${c.done} de ${c.target} treinos na semana">
       <svg viewBox="0 0 72 72" width="72" height="72">
         <circle cx="36" cy="36" r="${R}" fill="none" stroke="var(--track)" stroke-width="8"/>
-        <circle cx="36" cy="36" r="${R}" fill="none" stroke="var(--brand)" stroke-width="8" stroke-linecap="round"
+        <circle cx="36" cy="36" r="${R}" fill="none" stroke="var(--violet)" stroke-width="8" stroke-linecap="round"
           stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - pct)}" transform="rotate(-90 36 36)"/>
       </svg>
       <div class="ring-txt"><b>${c.done}</b><small>/${c.target}</small></div>
@@ -193,7 +207,7 @@ function todayCard(e) {
         <h3>${entryTitle(e)}</h3>
         <p class="muted">${e.time ? `🕒 ${e.time} · ` : ''}${e.dur} min${studioName(a) ? ` · ${studioName(a)}` : ''}</p>
       </div>
-      ${stt === 'done' ? '<span class="badge ok">Feito ✓</span>' : stt === 'skipped' ? '<span class="badge">Não rolou</span>' : ''}
+      ${stt === 'done' ? '<span class="badge ok">Feito ✓</span>' : stt === 'skipped' ? '<span class="badge">Não rolou</span>' : ARROW}
     </div>
     ${hydraStrip(e)}
     ${stt === 'planned' ? `
@@ -263,7 +277,7 @@ function viewWeek() {
 
   return `
   <header class="top">
-    <div><p class="eyebrow">Semana</p><h1>${label}</h1></div>
+    <div><p class="eyebrow">Semana</p><h1>${label.replace(/(semana)/i, '<em>$1</em>')}</h1></div>
   </header>
   <div class="nav-row">
     <button class="icon-btn" data-action="wk" data-d="-7" aria-label="Semana anterior">‹</button>
@@ -317,7 +331,7 @@ function viewMonth() {
   const fav = Object.entries(byCat).sort((a, b) => b[1] - a[1])[0];
 
   return `
-  <header class="top"><div><p class="eyebrow">Calendário</p><h1>${MONTHS[m - 1][0].toUpperCase() + MONTHS[m - 1].slice(1)} ${y}</h1></div></header>
+  <header class="top"><div><p class="eyebrow">Calendário</p><h1><em>${MONTHS[m - 1][0].toUpperCase() + MONTHS[m - 1].slice(1)}</em> ${y}</h1></div></header>
   <div class="nav-row">
     <button class="icon-btn" data-action="mo" data-d="-1" aria-label="Mês anterior">‹</button>
     <div class="nav-mid"><b>${plural(done, 'treino feito', 'treinos feitos')}</b><small>${plural(planned, 'planejado', 'planejados')} até o fim do mês</small></div>
@@ -336,9 +350,9 @@ function viewMonth() {
     <span><i class="mdot st-missed" style="--c:var(--ink-2)"></i>não rolou</span>
   </div>
   <div class="tiles">
-    <div class="tile"><small>Feitos</small><b>${done}</b></div>
-    <div class="tile"><small>Faltando</small><b>${planned}</b></div>
-    <div class="tile"><small>Favorita</small><b class="sm">${fav ? CATEGORIES[fav[0]].emoji + ' ' + CATEGORIES[fav[0]].label : '—'}</b></div>
+    <div class="tile t-lime"><small>Feitos</small><b>${done}</b></div>
+    <div class="tile t-lilac"><small>Faltando</small><b>${planned}</b></div>
+    <div class="tile t-violet"><small>Favorita</small><b class="sm">${fav ? CATEGORIES[fav[0]].emoji + ' ' + CATEGORIES[fav[0]].label : '—'}</b></div>
   </div>
   `;
 }
@@ -399,12 +413,13 @@ function viewProgress() {
   }).join('');
 
   return `
-  <header class="top"><div><p class="eyebrow">Evolução</p><h1>Sua era fitness ✨</h1></div></header>
-  <div class="tiles">
-    <div class="tile"><small>Treinos</small><b>${s.total}</b></div>
-    <div class="tile"><small>Semanas ativas seguidas</small><b>${s.streak} 🔥</b></div>
-    <div class="tile"><small>Medalhas</small><b>${unlockedN}/${ACHIEVEMENTS.length}</b></div>
-  </div>
+  <header class="top"><div><p class="eyebrow">Evolução</p><h1>Sua <em>era</em> fitness ${SPARK('h1-spark')}</h1></div></header>
+  <section class="stat-band">
+    ${WAVE}
+    <div class="sb-item">${SPARK()}<b>${s.total}</b><small>treinos feitos</small></div>
+    <div class="sb-item">${SPARK()}<b>${s.streak}</b><small>semanas ativas seguidas</small></div>
+    <div class="sb-item">${SPARK()}<b>${unlockedN}<i>/${ACHIEVEMENTS.length}</i></b><small>medalhas</small></div>
+  </section>
 
   <section class="card chart-card">
     <h3>Treinos por semana</h3>
@@ -420,7 +435,7 @@ function viewProgress() {
     <div class="hbars">${catRows}</div>
   </section>
 
-  <h2 class="section-title">Medalhas</h2>
+  <h2 class="section-title">Medalhas ${SPARK()}</h2>
   <div class="medals">${ach}</div>
   `;
 }
@@ -443,7 +458,7 @@ function viewPlan() {
   }).join('');
 
   return `
-  <header class="top"><div><p class="eyebrow">Personalização</p><h1>Meu plano 🎯</h1></div></header>
+  <header class="top"><div><p class="eyebrow">Personalização</p><h1>Meu <em>plano</em> ${SPARK('h1-spark')}</h1></div></header>
 
   <section class="card form-card">
     <h3>Objetivo</h3>
@@ -477,7 +492,7 @@ function viewPlan() {
     <p class="muted small">Grades dos estúdios atualizadas em ${fmtDay(SCHEDULE_UPDATED)}. Mudou? Manda o print pro Claude 📸</p>
   </section>
 
-  <a class="card link-card" href="#/hidratacao"><span>💧</span><div><b>Plano de hidratação</b><small>Seu perfil de suor e quanto beber em cada treino</small></div><span>›</span></a>
+  <a class="card link-card" href="#/hidratacao"><span>💧</span><div><b>Plano de hidratação</b><small>Seu perfil de suor e quanto beber em cada treino</small></div>${ARROW}</a>
 
   <section class="card form-card">
     <h3>Você</h3>
@@ -496,7 +511,7 @@ function viewPlan() {
     </div>
     <button class="btn btn-danger-link" data-action="wipe">Apagar tudo e começar do zero</button>
   </section>
-  <p class="foot">My Gym Era · feito com 💗 pra Amanda</p>
+  <p class="foot"><span class="logo">${SPARK()} MY GYM <em>Era</em></span><br>feito com 💗 pra Amanda</p>
   `;
 }
 const stepper = (field, v, min, max) => `
@@ -517,8 +532,9 @@ function viewHydration() {
   }).join('');
   const w = s.weight;
   return `
-  <header class="top"><div><p class="eyebrow"><a href="#/plano">‹ Meu plano</a></p><h1>Hidratação 💧</h1></div></header>
+  <header class="top"><div><p class="eyebrow"><a href="#/plano">‹ Meu plano</a></p><h1><em>Hidratação</em> 💧</h1></div></header>
   <section class="sweat-card">
+    ${FLOWER('sweat-flower')}
     <p class="eyebrow light">Perfil de suor · Gatorade Gx</p>
     <h3>${sw.name}</h3><p class="light">${sw.condition}</p>
     <div class="sweat-nums">
@@ -680,13 +696,14 @@ function toast(msg, undoSnap) {
 
 function celebrate(fresh) {
   const c = weekContext();
-  const pieces = Array.from({ length: 28 }, (_, i) => `<i style="--x:${Math.random() * 100}vw;--d:${0.6 + Math.random() * 0.9}s;--r:${Math.random() * 360}deg;--c:${['#FF8FB5', '#FFC94D', '#7B5CE0', '#14A38B', '#2F7FD6'][i % 5]}"></i>`).join('');
+  const pieces = Array.from({ length: 28 }, (_, i) => `<i style="--x:${Math.random() * 100}vw;--d:${0.6 + Math.random() * 0.9}s;--r:${Math.random() * 360}deg;--c:${['#F6A8CC', '#DCF16A', '#6F6CF6', '#E9C9F7', '#141414'][i % 5]}"></i>`).join('');
   const msg = c.done >= c.target ? `Meta da semana batida! ${c.done}/${c.target} 🎉` : `Mais um! ${c.done}/${c.target} na semana`;
   const overlay = document.createElement('div');
   overlay.className = 'celebrate';
   overlay.innerHTML = `
     <div class="confetti">${pieces}</div>
     <div class="cel-card">
+      ${FLOWER('cel-flower')}${SPARK('cel-s1')}${SPARK('cel-s2')}
       ${bunnySVG('radiant', { size: 150, cls: 'jump' })}
       <h2>${msg}</h2>
       ${fresh.length ? `<div class="cel-medals">${fresh.map((a) => `<div class="cel-medal"><span>${a.icon}</span><b>Nova medalha: ${a.name}</b><small>${a.desc}</small></div>`).join('')}</div>` : '<p class="muted">Não esquece de beber água depois 💧</p>'}
